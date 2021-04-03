@@ -16,7 +16,7 @@ import me.nick_perry14.Bukkit_ULX.Main;
 
 public final class ULXPlayer {
 	static boolean equalImmunity = false;
-	static Map<UUID, Integer> immunites = new HashMap<>();
+	private static Map<UUID, Integer> immunites = new HashMap<>();
 
 	private ULXPlayer() {
 
@@ -49,7 +49,7 @@ public final class ULXPlayer {
 			return requestor;
 		}
 		// Looking at shortcut
-		if (player.equals("@")) {
+		if (player.equals("@") && requestor != null) {
 			return getLookingAt(requestor);
 		}
 		return instance.getServer().getPlayer(player);
