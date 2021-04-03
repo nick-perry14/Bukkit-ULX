@@ -3,7 +3,6 @@ package me.nick_perry14.Bukkit_ULX.libraries;
 import java.util.List;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -47,6 +46,24 @@ public final class ULXPlayer {
 			return getLookingAt(requestor);
 		}
 		return instance.getServer().getPlayer(player);
+	}
+
+	/**
+	 * Returns basic information about a player
+	 * 
+	 * @param player Player to get info about
+	 * @return String containing formatted information.
+	 */
+	public static String getPlayerInfo(Player player) {
+		StringBuilder info = new StringBuilder("Player info for ");
+		info.append(player.getDisplayName());
+		info.append("\n");
+		info.append("UUID: " + player.getUniqueId().toString());
+		info.append("\n");
+		info.append("IP: " + player.getAddress().getAddress().getHostAddress());
+		info.append("\n");
+		info.append("Raw Name: " + player.getName());
+		return info.toString();
 	}
 
 	/**
