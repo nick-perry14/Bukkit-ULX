@@ -9,7 +9,7 @@ import me.nick_perry14.Bukkit_ULX.libraries.Chat;
 import me.nick_perry14.Bukkit_ULX.libraries.ULXPlayer;
 import net.md_5.bungee.api.ChatColor;
 
-public class GoTo implements CommandExecutor {
+public class Bring implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!(sender instanceof Player)) {
@@ -22,13 +22,15 @@ public class GoTo implements CommandExecutor {
 			if (target != null) {
 				if (target != player) {
 					if (ULXPlayer.canTarget(sender, target)) {
-						TP.lastLoc.put(player.getUniqueId(), player.getLocation());
-						player.teleport(target);
-						Chat.actionMessage(player, target, "Teleported To", "ulx.tp");
-					} else
+						TP.lastLoc.put(target.getUniqueId(), target.getLocation());
+						target.teleport(player);
+						Chat.actionMessage(player, target, "Brought", "ulx.tp");
+					} else {
 						sender.sendMessage(Chat.immune(target));
-				} else
-					sender.sendMessage(Chat.noMirror());
+					}
+				} else {
+					player.sendMessage(Chat.noMirror());
+				}
 			} else
 				player.sendMessage(Chat.prefix() + ChatColor.RED + args[0] + " is not online!");
 			return true;
