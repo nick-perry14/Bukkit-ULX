@@ -6,6 +6,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import me.nick_perry14.Bukkit_ULX.libraries.ULXPlayer;
+
 public class PlayerLeave implements Listener {
 
 	private static Queue<String> recentDC;
@@ -23,6 +25,11 @@ public class PlayerLeave implements Listener {
 			if (recentDC.size() > 5)
 				recentDC.remove();
 		}
+	}
+	
+	@EventHandler
+	public void removeImmunity(PlayerQuitEvent e) {
+		ULXPlayer.removePlayerImmunity(e.getPlayer().getUniqueId());
 	}
 
 	/**

@@ -1,16 +1,23 @@
 package me.nick_perry14.Bukkit_ULX.libraries;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import me.nick_perry14.Bukkit_ULX.Main;
 
 public final class ULXPlayer {
+	static boolean equalImmunity = false;
+	static Map<UUID, Integer> immunites = new HashMap<>();
+
 	private ULXPlayer() {
 
 	}
@@ -64,6 +71,52 @@ public final class ULXPlayer {
 		info.append("\n");
 		info.append("Raw Name: " + player.getName());
 		return info.toString();
+	}
+
+	/**
+	 * Check to see if a player can target another player.
+	 * 
+	 * @param executor Executor of the command
+	 * @param target   Target of the command
+	 * @return Whether or not the executor can target the player
+	 */
+	public static boolean canTarget(CommandSender executor, Player target) {
+		if (!(executor instanceof Player))
+			return true;
+		Player exec = (Player) executor;
+		if (equalImmunity)
+			return immunites.get(exec.getUniqueId()) >= immunites.get(target.getUniqueId());
+		else
+			return immunites.get(exec.getUniqueId()) > immunites.get(target.getUniqueId());
+	}
+
+	/**
+	 * Adds a player to the immunity lists
+	 * 
+	 * @param p Player to add immunity.
+	 */
+	public static void addPlayerImmunity(Player p) {
+		for (PermissionAttachmentInfo perm : p.getEffectivePermissions()) {
+			if (perm.toString().matches("$ulx\\.immunity\\.[0-9]+$")) {
+				try {
+					immunites.put(p.getUniqueId(), Integer.parseInt(perm.toString().substring(8)));
+					return;
+				} catch (NumberFormatException e) {
+					immunites.put(p.getUniqueId(), 0);
+					return;
+				}
+			}
+		}
+		immunites.put(p.getUniqueId(), 0);
+	}
+
+	/**
+	 * Removes a UUID from the immunity
+	 * 
+	 * @param uuid UUID to remove
+	 */
+	public static void removePlayerImmunity(UUID uuid) {
+		immunites.remove(uuid);
 	}
 
 	/**

@@ -21,6 +21,14 @@ public final class Chat {
 	public static String playerOnly() {
 		return prefix() + ChatColor.RED + "This command can only be executed by players!";
 	}
+	
+	public static String noMirror() {
+		return prefix() + ChatColor.RED + "You cannot target yourself!";
+	}
+	
+	public static String immune(Player immune) {
+		return prefix() + ChatColor.RED + "You cannot target " + immune.getDisplayName();
+	}
 
 	public static void actionMessage(CommandSender executor, Player target, String action, String permission) {
 		boolean playerexec = executor instanceof Player;
