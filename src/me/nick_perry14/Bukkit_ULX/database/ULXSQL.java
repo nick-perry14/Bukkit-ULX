@@ -1,17 +1,21 @@
 package me.nick_perry14.Bukkit_ULX.database;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.UUID;
 
 public class ULXSQL {
 	private static String host;
 	private static String username;
 	private static String password;
+	private static String database;
 	private static String prefix;
 	static Connection connect;
+	Properties connectionProps = new Properties();
 
 	private ULXSQL() {
 
@@ -33,9 +37,19 @@ public class ULXSQL {
 	}
 
 	public static void refreshConnection() {
+		try {
+			connect = DriverManager.getConnection("jdbc:sqlserver://" + host + ";database=" + database + ";user="
+					+ username + ";password=" + password + ";encrypt=true;");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public static void setUpSQL() {
+	public static void setUpSQL(String host, String username, String password) {
+		ULXSQL.host = host;
+		ULXSQL.username = username;
+		ULXSQL.password = password;
+		refreshConnection();
 		createTables();
 	}
 
