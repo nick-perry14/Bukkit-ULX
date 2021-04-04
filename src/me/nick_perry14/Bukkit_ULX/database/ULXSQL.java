@@ -60,7 +60,7 @@ public class ULXSQL {
 		}
 	}
 
-	public static boolean checkBan(UUID uuid) {
+	public static boolean isBanned(UUID uuid) {
 		try {
 			PreparedStatement query = connect.prepareStatement(
 					"SELECT COUNT(*) FROM `bans` WHERE `receiver` = \"?\" AND `expiration` > now() AND `unbanned` = FALSE;");
