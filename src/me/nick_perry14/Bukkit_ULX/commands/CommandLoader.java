@@ -24,6 +24,7 @@ public final class CommandLoader {
 		instance.getCommand("goto").setExecutor(new GoTo());
 		instance.getCommand("return").setExecutor(new Return());
 		instance.getCommand("recentdc").setExecutor(new RecentDC());
+		
 		instance.getCommand("spectate").setExecutor(new Spectate());
 	}
 }
